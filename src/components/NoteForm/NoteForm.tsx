@@ -25,7 +25,7 @@ export default function NoteForm({onClose}: NoteFormProps) {
 
     const NewNoteSchema = Yup.object().shape({
         title: Yup.string()
-            .min(3, "Minimum 2 characters")
+            .min(3, "Minimum 3 characters")
             .max(50, "Maximum 50 characters")
             .required("Title is required"),
         content: Yup.string()
@@ -41,14 +41,12 @@ export default function NoteForm({onClose}: NoteFormProps) {
         onSuccess: () => {
             console.log("Note added successfully!");
             queryClient.invalidateQueries({ queryKey: ['notes'] });
+            onClose();
         },
     });
 
-    function handleSubmit(values: NewNoteValues,
-    actions: FormikHelpers<NewNoteValues>) {
+    function handleSubmit(values: NewNoteValues) {
         postMutation.mutate(values);
-        actions.resetForm();
-        onClose();
     }
 
     return (

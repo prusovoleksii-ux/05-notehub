@@ -32,7 +32,7 @@ export async function postNote(newNote: NewNoteValues): Promise<Note> {
   return res.data;
 }
 
-export async function deleteNote(noteId: string) {
+export async function deleteNote(noteId: string): Promise<Note> {
   const res = await axios.delete<Note>(
     url+'/'+noteId, 
     {headers: {
