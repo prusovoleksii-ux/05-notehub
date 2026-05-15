@@ -21,8 +21,8 @@ export async function fetchNotes(query: string, currentPage: number): Promise<Re
   return res.data;
 }
 
-export async function postNote(newNote: NewNoteValues) {
-  const res = await axios.post<NewNoteValues>(
+export async function postNote(newNote: NewNoteValues): Promise<Note> {
+  const res = await axios.post<Note>(
     url, 
     newNote, 
     {headers: {
@@ -39,6 +39,5 @@ export async function deleteNote(noteId: string) {
       Authorization: `Bearer ${import.meta.env.VITE_NOTEHUB_TOKEN}`,
     }
   });
-  console.log("Deleted note: " + url+'/'+noteId);
   return res.data;
 }

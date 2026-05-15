@@ -20,7 +20,10 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const debouncedSetQuery = useDebouncedCallback((search: string) => setQuery(search), 300);
+  const debouncedSetQuery = useDebouncedCallback((search: string) => {
+    setQuery(search)
+    setCurrentPage(1);
+  }, 300);
   
   const {data, isSuccess, isFetching, isError} = useQuery({
     queryKey: ['notes', query, currentPage],
@@ -51,7 +54,7 @@ export default function App() {
           <NoteList notes={data.notes} />
         }
         {isModalOpen &&
-          <Modal>
+          <Modal onClose={closeModal}>
             <NoteForm onClose={closeModal}/>
           </Modal>}
       </div>
