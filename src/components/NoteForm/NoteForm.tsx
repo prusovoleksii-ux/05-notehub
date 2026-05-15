@@ -1,7 +1,6 @@
 import { ErrorMessage, Field, 
         Form, 
-        Formik, 
-        type FormikHelpers} from 'formik';
+        Formik } from 'formik';
 import css from './NoteForm.module.css'
 import type { NewNoteValues } from '../../types/note';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
