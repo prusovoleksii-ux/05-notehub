@@ -3,9 +3,9 @@ import { ErrorMessage, Field,
         Formik, 
         type FormikHelpers} from 'formik';
 import css from './NoteForm.module.css'
-import type { NewNoteValues } from '../types/note';
+import type { NewNoteValues } from '../../types/note';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { postNote } from '../services/noteService';
+import { postNote } from '../../services/noteService';
 import * as Yup from "yup";
 import LoadingMessage from '../LoadingMessage/LoadingMessage';
 import Error from '../Error/Error';

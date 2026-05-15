@@ -4,7 +4,7 @@ import {
 } from '@tanstack/react-query'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App/App.tsx'
+import App from './components/App/App.tsx'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient();
