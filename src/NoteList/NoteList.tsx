@@ -2,6 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteNote } from '../services/noteService';
 import type { Note } from '../types/note';
 import css from './NoteList.module.css'
+import LoadingMessage from '../LoadingMessage/LoadingMessage';
+import Error from '../Error/Error';
 
 interface NoteListProps {
     notes: Note[];
@@ -20,6 +22,9 @@ export default function NoteList({ notes }: NoteListProps) {
     });
 
     return (
+        <>
+        {deleteMutation.isPending && <LoadingMessage/>}
+        {deleteMutation.isError && <Error/>}
         <ul className={css.list}>
             {notes.length !== 0 &&
                 notes.map((note) => (
@@ -33,5 +38,6 @@ export default function NoteList({ notes }: NoteListProps) {
                 </li>
             ))}
         </ul>
+        </>
     )
 }

@@ -12,6 +12,8 @@ import { useDebouncedCallback } from 'use-debounce'
 import SearchBox from '../SearchBox/SearchBox'
 import Modal from '../Modal/Modal'
 import NoteForm from '../NoteForm/NoteForm'
+import LoadingMessage from '../LoadingMessage/LoadingMessage'
+import Error from '../Error/Error'
 
 export default function App() {
   const [query, setQuery] = useState('');
@@ -20,7 +22,7 @@ export default function App() {
 
   const debouncedSetQuery = useDebouncedCallback((search: string) => setQuery(search), 300);
   
-  const {data, isSuccess} = useQuery({
+  const {data, isSuccess, isFetching, isError} = useQuery({
     queryKey: ['notes', query, currentPage],
     queryFn: () => fetchNotes(query, currentPage),
     placeholderData: keepPreviousData,
@@ -30,26 +32,30 @@ export default function App() {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className={css.app}>
-      <header className={css.toolbar}>
-        <SearchBox onSearchChange={debouncedSetQuery}/>
-        {isSuccess && totalPages > 1 && 
-          <Pagination
-            totalPages={totalPages}
-            page={currentPage}
-            setPage={setCurrentPage}
-          />
+    <>
+      {isFetching && <LoadingMessage />}
+      {isError && <Error />}
+      <div className={css.app}>
+        <header className={css.toolbar}>
+          <SearchBox onSearchChange={debouncedSetQuery}/>
+          {isSuccess && totalPages > 1 && 
+            <Pagination
+              totalPages={totalPages}
+              page={currentPage}
+              setPage={setCurrentPage}
+            />
+          }
+          <button className={css.button} onClick={() => setIsModalOpen(true)}>Create note +</button>
+        </header>
+        {data && data.notes.length > 0 && 
+          <NoteList notes={data.notes} />
         }
-        <button className={css.button} onClick={() => setIsModalOpen(true)}>Create note +</button>
-      </header>
-      {data && data.notes.length > 0 && 
-        <NoteList notes={data.notes} />
-      }
-      {isModalOpen &&
-        <Modal>
-          <NoteForm onClose={closeModal}/>
-        </Modal>}
-    </div>
+        {isModalOpen &&
+          <Modal>
+            <NoteForm onClose={closeModal}/>
+          </Modal>}
+      </div>
+    </>
   )
 }
 
